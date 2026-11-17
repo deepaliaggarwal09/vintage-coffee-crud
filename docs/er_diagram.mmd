@@ -1,0 +1,67 @@
+erDiagram
+    fiscal_years ||--o| annual_pnl : "year_id"
+    fiscal_years ||--o| balance_sheet : "year_id"
+    fiscal_years ||--o| cash_flows : "year_id"
+    fiscal_years ||--o| ratios : "year_id"
+    quarters ||--o| quarterly_results : "quarter_end"
+    quarters ||--o| shareholding_pattern : "quarter_end"
+    companies ||--o| peer_comparison : "company_id"
+
+    fiscal_years {
+        int year_id PK
+        date fiscal_year_end UK
+        varchar year_label UK
+    }
+    quarters {
+        date quarter_end PK
+    }
+    companies {
+        int company_id PK
+        varchar company_name UK
+        tinyint is_vintage
+    }
+    annual_pnl {
+        int year_id PK,FK
+        decimal sales_cr
+        decimal expenses_cr
+        decimal net_profit_cr
+        decimal eps_rs
+    }
+    balance_sheet {
+        int year_id PK,FK
+        decimal reserves_cr
+        decimal borrowings_cr
+        decimal total_assets_cr
+    }
+    cash_flows {
+        int year_id PK,FK
+        decimal cfo_cr
+        decimal free_cash_flow_cr
+    }
+    ratios {
+        int year_id PK,FK
+        int cash_conversion_cycle
+        decimal roce_pct
+    }
+    quarterly_results {
+        int quarter_id PK
+        date quarter_end FK
+        decimal sales_cr
+        decimal net_profit_cr
+        decimal opm_pct
+    }
+    shareholding_pattern {
+        int quarter_id PK
+        date quarter_end FK
+        decimal promoters_pct
+        decimal fii_pct
+        decimal dii_pct
+        int num_shareholders
+    }
+    peer_comparison {
+        int peer_id PK
+        int company_id FK
+        decimal pe_ratio
+        decimal market_cap_cr
+        decimal roce_pct
+    }
